@@ -63,6 +63,8 @@ ALTER SEQUENCE public.calories_calorie_id_seq OWNED BY public.calories.calorie_i
 
 CREATE TABLE public.users (
     user_id integer NOT NULL,
+    email character varying(50),
+    password character varying(30),
     fname character varying(30),
     lname character varying(30),
     birth date
@@ -100,7 +102,8 @@ ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
 CREATE TABLE public.weights (
     weight_id integer NOT NULL,
     user_id integer,
-    date date
+    date date,
+    weight real
 );
 
 
@@ -161,7 +164,7 @@ COPY public.calories (calorie_id, user_id, calories, date, "time") FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: cahardy
 --
 
-COPY public.users (user_id, fname, lname, birth) FROM stdin;
+COPY public.users (user_id, email, password, fname, lname, birth) FROM stdin;
 \.
 
 
@@ -169,7 +172,7 @@ COPY public.users (user_id, fname, lname, birth) FROM stdin;
 -- Data for Name: weights; Type: TABLE DATA; Schema: public; Owner: cahardy
 --
 
-COPY public.weights (weight_id, user_id, date) FROM stdin;
+COPY public.weights (weight_id, user_id, date, weight) FROM stdin;
 \.
 
 
