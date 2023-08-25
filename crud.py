@@ -29,6 +29,16 @@ def get_weights_by_email(email):
     user = User.query.filter(email)
     read_weight(user.user_id)
 
+def check_password_by_email(email, password):
+    user = User.query.filter(User.email == email).first()
+    if user:
+        return user.password == password
+    else:
+        return False
+    
+def get_user_by_email(email_user):
+    return User.query.filter(User.email == email_user).first()
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

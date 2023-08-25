@@ -15,7 +15,6 @@
 
 <body>
 
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Weight Monitor</a>
@@ -28,8 +27,20 @@
               <li class="nav-item"> 
                 <a class="nav-link active" href="/login">Login</a>
               </li>
+              <li class="nav-item"> 
+                <a class="nav-link active" href="/register">Register</a>
+              </li>
             </ul>
           </nav>
+
+          <!--JS for flashing messages like invalid logins-->
+          <div class="row col-6 offset-4" >
+            {% for msg in get_flashed_messages() %}
+              <h3 class="flash-msg">
+                {{ msg }}
+              </h3>
+            {% endfor %}
+          </div>
 
    {% block body%}
 

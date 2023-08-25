@@ -1,6 +1,5 @@
 """Server for weight monitoring website"""
-from flask import (Flask, render_template, request, flash, session,
-                   redirect)
+from flask import (Flask, render_template, request, session, redirect, flash)
 #Model has our class files for User,Calorie, and Weight
 from model import connect_to_db, db
 from jinja2 import StrictUndefined
@@ -16,9 +15,27 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     return render_template("homepage.html")
 
-@app.route("/login")
-def login():
+@app.route("/login", methods=["GET"])
+def login_page():
     return render_template("login.html")
+
+@app.route("/login", methods=["POST"])
+def login_database():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    if crud.check_password_by_email(email, password) :
+        user = crud.get_user_by_email(email)
+        session["email"] = user.email
+        return redirect("/")
+    else:
+        flash("Invalid Login")
+        return redirect("/login")
+    
+        
+
+@app.route("/register", methods=["GET"])
+def register_new_user():
+    return render_template("/register.html")
 
 @app.route("/about")
 def about():
