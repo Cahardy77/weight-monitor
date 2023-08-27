@@ -37,6 +37,23 @@ def login_database():
 def register_new_user():
     return render_template("/register.html")
 
+@app.route("/register", methods=["POST"])
+def register_database():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    first_name = request.form.get("firstname")
+    last_name = request.form.get("lastname")
+    birth_date = request.form.get("birth")
+    if crud.get_user_by_email(email) :
+        flash("User email already exists!")
+        return redirect("/register")
+    else:
+        new_user = crud.create_user(email, password, first_name, last_name, birth_date)
+        db.session.add(new_user)
+        db.session.commit()
+        flash(f"Thank you and welcome, {new_user.fname}!")
+        return redirect("/")
+
 @app.route("/about")
 def about():
     return render_template("about.html")

@@ -37,7 +37,11 @@ def check_password_by_email(email, password):
         return False
     
 def get_user_by_email(email_user):
-    return User.query.filter(User.email == email_user).first()
+    user = User.query.filter(User.email == email_user).first()
+    if user:
+        return user
+    else:
+        return False
 
 if __name__ == '__main__':
     from server import app

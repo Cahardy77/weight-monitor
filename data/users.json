@@ -1,0 +1,5 @@
+[
+    {"email": "chris@gmail.com", "password": "secret","fname": "Chris","lname": "Hardy","birth": "1996-05-01"},
+    {"email": "john@gmail.com", "password": "secret","fname": "john","lname": "smith","birth": "1900-06-27"},
+    {"email": "jane@gmail.com", "password": "secret","fname": "jane","lname": "doe","birth": "2000-01-15"}
+]
