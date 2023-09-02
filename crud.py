@@ -1,4 +1,5 @@
 from model import User, Weight, Calorie, connect_to_db, db
+from sqlalchemy import text
 
 def create_user(email, password, fname, lname, birth):
     user = User(email=email, password=password, fname=fname, lname=lname, birth=birth)
@@ -19,15 +20,17 @@ def create_weight(user_id, weight, date):
     return weight
 
 def read_weight(user_id):
+    print(Weight.query.filter(Weight.user_id == user_id).all())
+    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     return Weight.query.filter(Weight.user_id == user_id).all()
 
 def get_calories_by_email(email):
-    user = User.query.filter(email)
-    read_calorie(user.user_id)
+    user = User.query.filter(email == email).first()
+    return read_calorie(user.user_id)
 
 def get_weights_by_email(email):
-    user = User.query.filter(email)
-    read_weight(user.user_id)
+    user = User.query.filter(email == email).first()
+    return read_weight(user.user_id)
 
 def check_password_by_email(email, password):
     user = User.query.filter(User.email == email).first()
