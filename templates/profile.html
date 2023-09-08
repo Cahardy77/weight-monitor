@@ -1,56 +1,71 @@
 {% extends 'base.html' %}
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js" integrity="sha512-7U4rRB8aGAHGVad3u2jiC7GA5/1YhQcQjxKeaVms/bT66i3LVBMRcBI9KwABNWnxOSwulkuSXxZLGuyfvo7V1A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 {% block body %}
-
+<script src="../static/js/javascript.js"></script>
 
     <h3>{{ user.fname }}</h3>
+   
     
-    <div class="row col-6" >
+    <div class="row col-3" >
         
-      
-        <canvas id="weight-chart" width="500" height="400"></canvas>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-            <script>var ctx = document.getElementById("weight-chart").getContext("2d");
-                new Chart(ctx, {
-                    type: "line",
-                    data: {
-                        labels: {{weights_dates | safe }},
-                        datasets:[{
-                            label: "Weights",
-                            data: {{weights}},
-                            fill: false,
-                            borderColor: "rgb(75,192,192)",
-                            lineTension: .5
-                        }]
-                    },
-                    options: {
-                        responsive: true
-                    }
-                });
-            </script>
+        <div>
+            <canvas id="weight-chart" width="500" height="400"></canvas>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+                <script>var ctx = document.getElementById("weight-chart").getContext("2d");
+                    new Chart(ctx, {
+                        type: "line",
+                        data: {
+                            labels: {{weights_dates | safe }},
+                            datasets:[{
+                                label: "Weights",
+                                data: {{weights}},
+                                fill: false,
+                                borderColor: "rgb(75,192,192)",
+                                lineTension: .5
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                </script>
 
-        <canvas id="calories-chart" width="500" height="400"></canvas>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-            <script>var ctx = document.getElementById("calories-chart").getContext("2d");
-                new Chart(ctx, {
-                    type: "pie",
-                    data: {
-                        labels: {{calories_dates | safe }},
-                        datasets:[{
-                            label: "Calories",
-                            data: {{calories}},
-                            fill: false,
-                            borderColor: "rgb(75,192,192)",
-                            lineTension: .5
-                        }]
-                    },
-                    options: {
-                        responsive: true
-                    }
-                });
-            </script>
-    </div>
+            <p id="weight-button-p">
+                <button id="add-weight">Add Weight</button>
+            </p>
+            
+        </div>
        
+        <div>
+            <canvas id="calories-chart" width="500" height="400"></canvas>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+                <script>var ctz = document.getElementById("calories-chart").getContext("2d");
+                    new Chart(ctz, {
+                        type: "pie",
+                        data: {
+                            labels: {{calories_dates | safe }},
+                            datasets:[{
+                                label: "Calories",
+                                data: {{calories}},
+                                fill: false,
+                                borderColor: "rgb(75,192,192)",
+                                lineTension: .5
+                            }]
+                        },
+                        options: {
+                            responsive: true
+                        }
+                    });
+                </script>
+            <p id="calorie-button-p">
+                <button id="add-calorie">Add Calorie</button>
+            </p>
+        </div>
+            
     
+    </div>
+
+
+      
 {% endblock %}

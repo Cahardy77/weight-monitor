@@ -88,6 +88,17 @@ def show_user():
         flash("User not logged in!")
         return redirect("/login")
     
+@app.route("/add-weight", methods=["POST"])
+def add_weight():
+    new_weight = request.form.get("new-weight")
+    date = datetime.now
+    print(date)
+    #crud.create_weight(user_id,new_weight,date)
+    return redirect("/profile")
+
+@app.route("/add-calorie", methods=["POST"])
+def add_calorie():
+    return redirect("/profile")
 
 
 

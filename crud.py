@@ -20,8 +20,6 @@ def create_weight(user_id, weight, date):
     return weight
 
 def read_weight(user_id):
-    print(Weight.query.filter(Weight.user_id == user_id).all())
-    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     return Weight.query.filter(Weight.user_id == user_id).all()
 
 def get_calories_by_email(email):
