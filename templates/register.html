@@ -4,6 +4,7 @@
 
 <div class="row col-6 offset-4" >
     <h2>Register</h2>
+    
     <form action="/register" method="POST">
         <p>
             Email <input type="text" name="email">
@@ -23,6 +24,45 @@
 
         <p>
             Birth Date <input type="text" name="birth">
+        </p>
+
+        <p>
+            Current weight(lbs.)<input type="text" name="current-weight">
+        </p>
+
+        <p>
+            Height(inches) <input type="text" name="height">
+        </p>
+
+        <p>
+            <label for="gender">Choose a gender:</label> 
+                <select name="gender" id="gender"> 
+                    <option value="male">Male</option> 
+                    <option value="female">Female</option>  
+                </select>
+        
+        </p>
+
+        <p>
+            <label for="activity-level">Choose an activity level:</label> 
+                <select name="activity-level" id="activity-level"> 
+                    <option value="sedentary">Sedentary</option> 
+                    <option value="lightly_active">Lightly Active</option>  
+                    <option value="moderately_active">Moderately Active</option> 
+                    <option value="very_active">Very Active</option> 
+                    <option value="extra_active">Extra Active</option> 
+                </select>
+        
+        </p>
+
+        <p>
+            <label for="goal">Choose a goal:</label> 
+                <select name="goal" id="goal"> 
+                    <option value="weight_loss">Weight Loss</option> 
+                    <option value="maintenance">Maintenance</option>  
+                    <option value="weight_gain">Weight Gain</option>  
+                </select>
+        
         </p>
 
         <p>

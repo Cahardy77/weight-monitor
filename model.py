@@ -3,14 +3,18 @@ db = SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = "users"
-
+    
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(20))
     fname = db.Column(db.String(20))
     lname = db.Column(db.String(20))
-    # DateTime may cause issues?
     birth = db.Column(db.DateTime)
+    height = db.Column(db.Integer)
+    gender = db.Column(db.String(7))
+    activity_level = db.Column(db.String(30))
+    goal = db.Column(db.String(30))
+    
 
     calories = db.relationship("Calorie", back_populates="user")
     weights = db.relationship("Weight", back_populates="user")
@@ -23,6 +27,7 @@ class Calorie(db.Model):
     calories = db.Column(db.Integer)
     # DateTime may cause issues?
     date = db.Column(db.DateTime)
+    comment = db.Column(db.String(200))
 
     user = db.relationship("User", back_populates="calories")
 
@@ -38,6 +43,7 @@ class Weight(db.Model):
     weight = db.Column(db.Float)
     # DateTime may cause issues?
     date = db.Column(db.DateTime)
+    comment = db.Column(db.String(200))
     
     user = db.relationship("User", back_populates="weights")
 

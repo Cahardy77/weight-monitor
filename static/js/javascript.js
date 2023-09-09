@@ -5,6 +5,8 @@ function addWeightButton(){
     <form action="/add-weight" method="POST" type=text id="add-weight-form">
       <p>Add Weight</p>
         <input type="text" id="add-weight-input" name="new-weight"></input>
+        <p>Add Comment</p>
+        <input type="text" id="add-weight-comment" name="new-weight-comment"></input>
       <button type="submit">Submit</button>
     </form>`;
 };
@@ -13,8 +15,10 @@ function addCalorieButton(){
   console.log("calorie button clicked");
   document.querySelector("#calorie-button-p").innerHTML = `
     <form action="/add-calorie" method="POST" type=text id="add-calorie-form">
-      <p>Add Calorie</p>
+      <p>Add Calorie</p> 
         <input type="text" id="add-calorie-input" name="new-calorie"></input>
+        <p>Add Comment</p>
+        <input type="text" id="add-calorie-comment" name="new-calorie-comment"></input>
       <button type="submit">Submit</button>
     </form>`;
 };

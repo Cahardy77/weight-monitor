@@ -4,66 +4,77 @@
 {% block body %}
 <script src="../static/js/javascript.js"></script>
 
+
     <h3>{{ user.fname }}</h3>
    
-    
-    <div class="row col-3" >
-        
-        <div>
-            <canvas id="weight-chart" width="500" height="400"></canvas>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-                <script>var ctx = document.getElementById("weight-chart").getContext("2d");
-                    new Chart(ctx, {
-                        type: "line",
-                        data: {
-                            labels: {{weights_dates | safe }},
-                            datasets:[{
-                                label: "Weights",
-                                data: {{weights}},
-                                fill: false,
-                                borderColor: "rgb(75,192,192)",
-                                lineTension: .5
-                            }]
-                        },
-                        options: {
-                            responsive: true
-                        }
-                    });
-                </script>
+    <div class="container">
+        <div class="row col-6" >
+            <section class="col">
+                {% for weight in whole_weights %}
+                    <p>Date: {{weight.date}} Calories: {{weight.weight}} Comment: {{weight.comment}}</p>
+                {% endfor %}
+            </section>
+            <section>
+                <canvas id="weight-chart" width="500" height="400"></canvas>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+                    <script>var ctx = document.getElementById("weight-chart").getContext("2d");
+                        new Chart(ctx, {
+                            type: "line",
+                            data: {
+                                labels: {{weights_dates | safe }},
+                                datasets:[{
+                                    label: "Weights",
+                                    data: {{weights}},
+                                    fill: false,
+                                    borderColor: "rgb(75,192,192)",
+                                    lineTension: .5
+                                }]
+                            },
+                            options: {
+                                responsive: true
+                            }
+                        });
+                    </script>
 
-            <p id="weight-button-p">
-                <button id="add-weight">Add Weight</button>
-            </p>
+                <p id="weight-button-p">
+                    <button id="add-weight">Add Weight</button>
+                </p>
+                
+            </section>
+
             
+        
+            <section class="col">
+                {% for calorie in whole_calories %}
+                <p>Date: {{calorie.date}} Calories: {{calorie.calories}} Comment: {{calorie.comment}}</p>
+                {% endfor %}
+                <canvas id="calories-chart" width="500" height="400"></canvas>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+                    <script>var ctz = document.getElementById("calories-chart").getContext("2d");
+                        new Chart(ctz, {
+                            type: "pie",
+                            data: {
+                                labels: {{calories_dates | safe }},
+                                datasets:[{
+                                    label: "Calories",
+                                    data: {{calories}},
+                                    fill: false,
+                                    borderColor: "rgb(75,192,192)",
+                                    lineTension: .5
+                                }]
+                            },
+                            options: {
+                                responsive: true
+                            }
+                        });
+                    </script>
+                <p id="calorie-button-p">
+                    <button id="add-calorie">Add Calorie</button>
+                </p>
+            </section>
+                
+        
         </div>
-       
-        <div>
-            <canvas id="calories-chart" width="500" height="400"></canvas>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-                <script>var ctz = document.getElementById("calories-chart").getContext("2d");
-                    new Chart(ctz, {
-                        type: "pie",
-                        data: {
-                            labels: {{calories_dates | safe }},
-                            datasets:[{
-                                label: "Calories",
-                                data: {{calories}},
-                                fill: false,
-                                borderColor: "rgb(75,192,192)",
-                                lineTension: .5
-                            }]
-                        },
-                        options: {
-                            responsive: true
-                        }
-                    });
-                </script>
-            <p id="calorie-button-p">
-                <button id="add-calorie">Add Calorie</button>
-            </p>
-        </div>
-            
-    
     </div>
 
 

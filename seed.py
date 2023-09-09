@@ -49,8 +49,12 @@ for user in user_data:
     )
     #birth = datetime.strptime(user["birth"], "%Y-%m-%d")
     birth = user["birth"]
+    height = 104
+    gender = "male"
+    activity_level = "sedentary"
+    goal = "maintenance"
 
-    new_user = crud.create_user(email, password, fname, lname, birth)
+    new_user = crud.create_user(email, password, fname, lname, birth, height, gender, activity_level, goal)
     users_list.append(new_user)
 
 #Make calorie objects and add to list
