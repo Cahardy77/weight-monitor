@@ -123,8 +123,7 @@ def show_user():
 def add_weight():
     new_weight = request.form.get("new-weight")
     new_comment = request.form.get("new-weight-comment")
-    date = str(datetime.now()).rsplit(" ")
-    current_date = datetime.strptime(date[0], "%Y-%m-%d")
+    current_date = todays_date()
     email = session["email"]
     user = crud.get_user_by_email(email)
     new_weight = crud.create_weight(user.user_id,new_weight,current_date,new_comment)

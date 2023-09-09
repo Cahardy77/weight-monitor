@@ -28,8 +28,10 @@ function addCalorieButton(){
 window.onload = function(){
 document.querySelector("#add-weight").addEventListener("click", addWeightButton);
 document.querySelector("#add-calorie").addEventListener("click", addCalorieButton);
+
 console.log("javascript loaded");
 };
 console.log("javascript running");
+console.log(document.cookie)
 
    

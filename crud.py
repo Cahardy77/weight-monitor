@@ -10,6 +10,8 @@ def read_user(user_id):
     User.query.get(user_id)
 
 def create_calorie(user_id, calories, date, comment="No comment"):
+    if comment == "":
+        comment = "No Comment"
     calorie = Calorie(user_id=user_id, calories=calories, date=date, comment=comment)
     return calorie
 
@@ -17,6 +19,8 @@ def read_calorie(user_id):
     return Calorie.query.filter(Calorie.user_id == user_id).all()
 
 def create_weight(user_id, weight, date, comment="No comment"):
+    if comment == "":
+        comment = "No Comment"
     weight = Weight(user_id=user_id, date=date, weight=weight, comment=comment)
     return weight
 
