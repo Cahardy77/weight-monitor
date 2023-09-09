@@ -107,7 +107,6 @@ def show_user():
             if str(calorie.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
                 todays_calories_list.append(calorie)
                 todays_calories += calorie.calories
-                print(todays_calories)
         #make list with total calories eaten and calories left to eat
         calories_list.append(todays_calories)
         calories_list.append(int(needed_calories["caloric_needs"]["calories"])-todays_calories)
