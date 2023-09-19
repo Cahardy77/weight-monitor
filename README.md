@@ -1,8 +1,8 @@
-#Weight Monitor!
+# Weight Monitor!
 ***
-Database:
-*users:
-    *user_id
+## Database:
+* users:
+    * user_id
 # Headline H1
 ## Headline H2
 ### Headline H3
