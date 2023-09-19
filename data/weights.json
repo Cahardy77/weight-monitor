@@ -31,6 +31,11 @@
     {"user_id": "1", "date": "08-28-2023 16:00", "weight": "206"},
     {"user_id": "1", "date": "08-29-2023 16:00", "weight": "204"},
     {"user_id": "1", "date": "08-30-2023 16:00", "weight": "206"},
-    {"user_id": "1", "date": "08-31-2023 16:00", "weight": "200"}
+    {"user_id": "1", "date": "08-31-2023 16:00", "weight": "200"},
+    {"user_id": "1", "date": "09-14-2023 16:00", "weight": "210", "comment": "Exercised arms today."},
+    {"user_id": "1", "date": "09-15-2023 16:00", "weight": "209.5", "comment": "Leg day."},
+    {"user_id": "1", "date": "09-16-2023 16:00", "weight": "209.6", "comment": "Worked and then worked on project."},
+    {"user_id": "1", "date": "09-17-2023 16:00", "weight": "209.4", "comment": "Worked and relaxed after work."},
+    {"user_id": "1", "date": "09-18-2023 16:00", "weight": "209.3", "comment": "Worked on core today."}
 
 ]

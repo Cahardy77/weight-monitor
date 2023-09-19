@@ -1,5 +1,74 @@
 {% extends 'base.html' %}
-{% block title%}homepage{% endblock %}
+
 {% block body %}
-    <h1>Home Page</h1>
+<div class="container-fluid">
+    <div class="row">
+    <div class="col">
+    <div class="jumbotron jumbotron-fluid text-center">
+                <h1 class="display-4">Weight Monitor!</h1>
+
+
+                <div class="container">
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                        <li data-target="#myCarousel" data-slide-to="3"></li>
+                    </ol>
+                
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="d-flex justify-content-center">
+                                <img src="../static/img/weight.png" alt="Los Angeles" style="width:50%;">
+                            </div>
+                        </div>
+                
+                        <div class="item" data-interval="50">
+                            <div class="d-flex justify-content-center">
+                                <img src="../static/img/Calorie.png" alt="Los Angeles" style="width:50%;">
+                            </div>
+                        </div>
+                    
+                        <div class="item" data-interval="50">
+                            <div class="d-flex justify-content-center">
+                                <img src="../static/img/water.png" alt="Los Angeles" style="width:50%;">
+                            </div>
+                        </div>
+
+                        <div class="item" data-interval="50">
+                            <div class="d-flex justify-content-center">
+                                <img src="../static/img/bmi-info.png" alt="Los Angeles" style="width:50%;">
+                            </div>
+                        </div>
+
+
+                        
+
+                    </div>
+                
+                    <!-- Left and right controls -->
+                    
+                    </div>
+                </div>
+                
+
+
+
+                <p class="lead">This project helps you keep track of health items!</p>
+                <hr class="my-4">
+                <p>You can log your weight, calories, and water daily!</p>
+        </div>
+        </div> 
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+            
 {% endblock %}

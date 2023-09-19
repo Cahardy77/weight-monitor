@@ -15,6 +15,8 @@ app = Flask(__name__)
 app.secret_key = "SuperSecret"
 app.jinja_env.undefined = StrictUndefined
 
+
+
 #Display the homepage when going to the index
 @app.route("/")
 def homepage():
@@ -27,15 +29,22 @@ def login_page():
 @app.route("/login", methods=["POST"])
 def login_database():
     email = request.form.get("email")
+    
     password = request.form.get("password")
+    
     if crud.check_password_by_email(email, password) :
         user = crud.get_user_by_email(email)
+      
         session["email"] = user.email
         return redirect("/profile")
     else:
         flash("Invalid Login")
         return redirect("/login")
-    
+
+@app.route("/logout")
+def logout():
+    session["email"] = None
+    return redirect("/")
         
 
 @app.route("/register", methods=["GET"])
@@ -68,6 +77,9 @@ def register_database():
         new_calorie = crud.create_calorie(new_user.user_id, 0, todays_date())
         db.session.add(new_calorie)
         db.session.commit()
+        new_water = crud.create_water(new_user.user_id, 0, todays_date())
+        db.session.add(new_water)
+        db.session.commit()
         session["email"] = new_user.email
         flash(f"Thank you and welcome, {new_user.fname}!")
         return redirect("/")
@@ -79,42 +91,65 @@ def about():
 @app.route("/profile")
 def show_user():
     """Show details on a particular user."""
-    if session["email"]: #try:
-        
+    try:
+        if session["email"]: #
+            
+            email = session["email"]
+            user = crud.get_user_by_email(email)
+            weights = crud.get_weights_by_email(email)
+            
+            weights_list = []
+            weight_dates_list = []
+            for weight in weights:
+                weights_list.append(weight.weight)
+                weight_dates_list.append(f"{weight.date.month}/{weight.date.day}/{weight.date.year}")
 
-        email = session["email"]
-        user = crud.get_user_by_email(email)
-        weights = crud.get_weights_by_email(email)
-        
+            calories = crud.get_calories_by_email(email)
+            calories_list = []
+            calories_dates_list = []
+            todays_calories_list = []
+            age = todays_date().year - user.birth.year
+            todays_weight = weights_list[-1] / 2.205 # convert lbs to kilograms for api
+            height = user.height * 2.54 #convert inches to cm for api
+            needed_calories = api_caller.caloric_intake(age,todays_weight,height,user.gender,user.activity_level,user.goal)
+            todays_calories = 0
+            #calculate how many calories were eaten today
+            for calorie in calories:
+                if str(calorie.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
+                    todays_calories_list.append(calorie)
+                    todays_calories += calorie.calories
+            #make list with total calories eaten and calories left to eat
+            calories_list.append(todays_calories)
+            calories_list.append(int(needed_calories["caloric_needs"]["calories"])-todays_calories)
+            calories_dates_list.append(f"{calorie.date.month}/{calorie.date.day}/{calorie.date.year}")
 
-        weights_list = []
-        weight_dates_list = []
-        for weight in weights:
-            weights_list.append(weight.weight)
-            weight_dates_list.append(f"{weight.date.month}/{weight.date.day}/{weight.date.year}")
+            #Water
+            waters = crud.get_water_by_email(email)
+            water_list = []
+            water_dates_list = []
+            todays_water_list = []
+            needed_water = api_caller.water_intake(todays_weight, user.activity_level)["water_intake"]
+            todays_water = 0
+            #calculate how much water was eaten today
+            for water in waters:
+                if str(water.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
+                    todays_water_list.append(water)
+                    todays_water += water.water
+            #make list with total water eaten and water left to eat
+            water_list.append(todays_water)
+            water_list.append(needed_water-todays_water)
+            water_dates_list.append(f"{water.date.month}/{water.date.day}/{water.date.year}")
 
-        calories = crud.get_calories_by_email(email)
-        calories_list = []
-        calories_dates_list = []
-        todays_calories_list = []
-        age = todays_date().year - user.birth.year
-        todays_weight = weights_list[-1] / 2.205 # convert lbs to kilograms for api
-        height = user.height * 2.54 #convert inches to cm for api
-        needed_calories = api_caller.caloric_intake(age,todays_weight,height,user.gender,user.activity_level,user.goal)
-        todays_calories = 0
-        #calculate how many calories were eaten today
-        for calorie in calories:
-            if str(calorie.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
-                todays_calories_list.append(calorie)
-                todays_calories += calorie.calories
-        #make list with total calories eaten and calories left to eat
-        calories_list.append(todays_calories)
-        calories_list.append(int(needed_calories["caloric_needs"]["calories"])-todays_calories)
-        calories_dates_list.append(f"{calorie.date.month}/{calorie.date.day}/{calorie.date.year}")
-   
 
-        return render_template("profile.html", user=user, calories=calories_list, calories_dates=calories_dates_list, weights=weights_list[-5:], weights_dates=weight_dates_list[-5:], whole_calories=todays_calories_list, whole_weights=weights[-5:])
-    else:# except:
+            bmi = api_caller.BMI(user.height,weights_list[-1])
+
+            return render_template("profile.html", user=user, calories=calories_list, calories_dates=calories_dates_list, 
+                                weights=weights_list[-5:], weights_dates=weight_dates_list[-5:], whole_calories=todays_calories_list,
+                                    whole_weights=weights[-5:], water_dates=water_dates_list, waters=water_list, bmi=bmi)
+        else:# 
+            flash("User not logged in!")
+            return redirect("/login")
+    except:
         flash("User not logged in!")
         return redirect("/login")
     
@@ -139,6 +174,17 @@ def add_calorie():
     user = crud.get_user_by_email(email)
     new_calorie = crud.create_calorie(user.user_id,new_calorie,current_date,new_comment)
     db.session.add(new_calorie)
+    db.session.commit()
+    return redirect("/profile")
+
+@app.route("/add-water", methods=["POST"])
+def add_water():
+    new_water = request.form.get("new-water")
+    current_date = todays_date()
+    email = session["email"]
+    user = crud.get_user_by_email(email)
+    add_water = crud.create_water(user.user_id,new_water,current_date)
+    db.session.add(add_water)
     db.session.commit()
     return redirect("/profile")
 

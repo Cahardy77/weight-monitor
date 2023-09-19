@@ -23,15 +23,25 @@ function addCalorieButton(){
     </form>`;
 };
 
+function addWaterButton(){
+  console.log("water button clicked");
+  document.querySelector("#water-button-p").innerHTML = `
+    <form action="/add-water" method="POST" type=text id="add-water-form">
+      <p>Add Water (Ounces)</p> 
+        <input type="text" id="add-water-input" name="new-water"></input>
+      <button type="submit">Submit</button>
+    </form>`;
+};
+
 
 //Add event listeners after page has loaded.
 window.onload = function(){
 document.querySelector("#add-weight").addEventListener("click", addWeightButton);
 document.querySelector("#add-calorie").addEventListener("click", addCalorieButton);
+document.querySelector("#add-water").addEventListener("click", addWaterButton);
 
 console.log("javascript loaded");
 };
 console.log("javascript running");
-console.log(document.cookie)
 
    

@@ -15,6 +15,7 @@ model.db.create_all()
 users_list = []
 calories_list = []
 weights_list = []
+water_list = []
 
 #Open all json files and load data
 with open("data/users.json") as data_user:
@@ -25,20 +26,10 @@ with open("data/calories.json") as data_calorie:
 
 with open("data/weights.json") as data_weight:
     weight_data = json.loads(data_weight.read())
-"""
-# This doesn't work for some reason. Dict error
-for user in user_data:
-    print(user["fname"])
-    #Dict Error?
-    #current_user = crud.create_user(user["email"],user["password"],user["fname"],user["lname"],user["birth"])
-    email, password, fname, lname, birth = (user["email"],user["password"],user["fname"],user["lname"],user["birth"])
-    current_user = crud.create_user(email, password, fname, lname, birth)
-    users_list.append(current_user)
-print(users_list)
-model.db.session.add_all(user_data)
-model.db.session.commit()
 
-"""
+with open("data/water.json") as data_water:
+    water_data = json.loads(data_water.read())
+
 #Make user objects and add to list
 for user in user_data:
     email, password, fname, lname = (
@@ -49,10 +40,10 @@ for user in user_data:
     )
     #birth = datetime.strptime(user["birth"], "%Y-%m-%d")
     birth = user["birth"]
-    height = 104
+    height = 72
     gender = "male"
-    activity_level = "sedentary"
-    goal = "maintenance"
+    activity_level = "moderately_active"
+    goal = "weight_loss"
 
     new_user = crud.create_user(email, password, fname, lname, birth, height, gender, activity_level, goal)
     users_list.append(new_user)
@@ -74,12 +65,27 @@ for weight in weight_data:
         weight["user_id"],
         weight["weight"]
     )
+    if "comment" in weight.keys():
+        comment = weight["comment"]
+    else:
+        comment = "No Comment."
     date = datetime.strptime(weight["date"], "%m-%d-%Y %H:%M")
 
-    new_weight = crud.create_weight(user_id, weight_var, date)
+    new_weight = crud.create_weight(user_id, weight_var, date, comment)
     calories_list.append(new_weight)
+
+for water in water_data:
+    user_id, water_var= (
+        water["user_id"],
+        water["water"]
+    )
+    date = datetime.strptime(water["date"], "%m-%d-%Y %H:%M")
+
+    new_water = crud.create_water(user_id, water_var, date)
+    water_list.append(new_water)
     
 model.db.session.add_all(users_list)
 model.db.session.add_all(calories_list)
 model.db.session.add_all(weights_list)
+model.db.session.add_all(water_list)
 model.db.session.commit()

@@ -15,9 +15,10 @@ class User(db.Model):
     activity_level = db.Column(db.String(30))
     goal = db.Column(db.String(30))
     
-
+    
     calories = db.relationship("Calorie", back_populates="user")
     weights = db.relationship("Weight", back_populates="user")
+    water = db.relationship("Water", back_populates="user")
 
 class Calorie(db.Model):
     __tablename__ = "calories"
@@ -49,6 +50,23 @@ class Weight(db.Model):
 
     def __repr__(self):
         return f'<User user_id={self.user_id} weight={self.weight}>'
+    
+class Water(db.Model):
+    __tablename__ = "water"
+
+    water_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    water = db.Column(db.Integer)
+    # DateTime may cause issues?
+    date = db.Column(db.DateTime)
+    
+
+    user = db.relationship("User", back_populates="water")
+
+    def __repr__(self):
+        return f'<User user_id={self.user_id} water={self.water}>'
+    
+
 
 def connect_to_db(flask_app, db_uri="postgresql:///weight-monitor", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

@@ -13,9 +13,11 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
-            <div style="width: 60rem;">
+        <div class="col-md-4 offset-1">
+            
+            <div style="width: 50rem;">
                 <div class="card-body">
+                    <h2>Weight for the last 5 days</h2>
                     <canvas id="weight-chart"></canvas>
                         {% for weight in whole_weights %}
                             <p>Date: {{weight.date}} Calories: {{weight.weight}} Comment: {{weight.comment}}</p>
@@ -27,9 +29,11 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4 offset-2">
+            
             <div style="width: 30rem;">
                 <div class="card-body">
+                    <h2>Caloric Intake</h2>
                     <canvas id="calories-chart"></canvas>
                         {% for calorie in whole_calories %}
                             <p>Date: {{calorie.date}} Calories: {{calorie.calories}} Comment: {{calorie.comment}}</p>
@@ -41,8 +45,43 @@
             </div>
         </div>
     </div>
+
+    <div class="row align-middle">
+
+        <div class="col-md-4 offset-2">
+            <div style="width: 30rem;">
+                
+                <div class="card-body">
+                    <h2>Water Intake</h2>
+                    <canvas id="water-chart"></canvas>
+                        <p id="water-button-p">
+                            <button id="add-water">Add Water</button>
+                        </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 offset-1">
+            
+            <div style="width: 30rem;">
+                <div class="text-center">
+                    <div class="card">
+                        <h2 class="card-title"></h2>
+                            <img src="../static/img/BMI.png" alt="BMI">
+                            <h2>{{bmi.height}}</h2>
+                            <h2>{{bmi.weight}}</h2>
+                            <h2>{{bmi.bmi}}</h2>
+                            <h2>{{bmi.weight_status}}</h2>
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
-   
+
+<!--Weight Chart-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 <script>var ctx = document.getElementById("weight-chart").getContext("2d");
     new Chart(ctx, {
@@ -63,6 +102,8 @@
     });
 </script>
 
+
+<!--Calorie Chart-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 <script>var ctz = document.getElementById("calories-chart").getContext("2d");
     new Chart(ctz, {
@@ -74,7 +115,8 @@
                 data: {{calories}},
                 fill: false,
                 borderColor: "rgb(75,192,192)",
-                lineTension: .5
+                backgroundColor: ["rgba(0, 255, 0, 0.5)","rgba(255, 0, 0, 0.5)"],
+                
             }]
         },
         options: {
@@ -82,5 +124,28 @@
         }
     });
 </script>
+
+<!--Water Chart-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script>var ctz = document.getElementById("water-chart").getContext("2d");
+    new Chart(ctz, {
+        type: "doughnut",
+        data: {
+            labels: {{water_dates | safe }},
+            datasets:[{
+                label: "Water Intake",
+                data: {{waters}},
+                fill: false,
+                backgroundColor: ["rgb(35,137,218)", "rgb(82.7, 82.7, 82.7,0.1)"],
+                borderColor: "rgb(82.7, 82.7, 82.7)",
+                
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
+
 
 {% endblock %}
