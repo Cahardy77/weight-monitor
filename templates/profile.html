@@ -68,16 +68,23 @@
                     <div class="card">
                         <h2 class="card-title"></h2>
                             <img src="../static/img/BMI.png" alt="BMI">
-                            <h2>{{bmi.height}}</h2>
-                            <h2>{{bmi.weight}}</h2>
-                            <h2>{{bmi.bmi}}</h2>
-                            <h2>{{bmi.weight_status}}</h2>
+                            <h2 id="bmi-height">Height:</h2>
+                            <h2 id="bmi-weight">Weight: </h2>
+                            <h2 id="bmi-bmi">BMI: </h2>
+                            <h2 id="bmi-weight-status">Weight Status: </h2>
                             
                     </div>
                 </div>
             </div>
         </div>
 
+    </div>
+    <div class="row">
+        <div class="col">
+            <canvas id="test"></canvas>
+
+            </p>
+        </div>
     </div>
 </div>
 
@@ -116,28 +123,6 @@
                 fill: false,
                 borderColor: "rgb(75,192,192)",
                 backgroundColor: ["rgba(0, 255, 0, 0.5)","rgba(255, 0, 0, 0.5)"],
-                
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-</script>
-
-<!--Water Chart-->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
-<script>var ctz = document.getElementById("water-chart").getContext("2d");
-    new Chart(ctz, {
-        type: "doughnut",
-        data: {
-            labels: {{water_dates | safe }},
-            datasets:[{
-                label: "Water Intake",
-                data: {{waters}},
-                fill: false,
-                backgroundColor: ["rgb(35,137,218)", "rgb(82.7, 82.7, 82.7,0.1)"],
-                borderColor: "rgb(82.7, 82.7, 82.7)",
                 
             }]
         },

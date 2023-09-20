@@ -1,5 +1,5 @@
 """Server for weight monitoring website"""
-from flask import (Flask, render_template, request, session, redirect, flash)
+from flask import (Flask, render_template, request, session, redirect, flash, jsonify)
 from sqlalchemy import text
 #Model has our class files for User,Calorie, and Weight
 from model import connect_to_db, db
@@ -45,6 +45,44 @@ def login_database():
 def logout():
     session["email"] = None
     return redirect("/")
+
+@app.route("/bmi")
+def bmi():
+    email = session["email"]
+    user = crud.get_user_by_email(email)
+    weights = crud.get_weights_by_email(email)
+    height = user.height
+    weight = weights[-1]
+    bmi = api_caller.BMI(height, weight.weight)
+    return bmi
+
+@app.route("/get-water")
+def get_water():
+    email = session["email"]
+    user = crud.get_user_by_email(email)
+    waters = crud.get_water_by_email(email)
+    weight = todays_weight("kg")
+    water_list = []
+    water_dates_list = []
+    todays_water_list = []
+    needed_water = api_caller.water_intake(weight, user.activity_level)["water_intake"]
+    todays_water = 0
+    #calculate how much water was eaten today
+    for water in waters:
+        if str(water.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
+            todays_water_list.append(water)
+            todays_water += water.water
+    #make list with total water eaten and water left to eat
+    water_list.append(todays_water)
+    water_list.append(needed_water-todays_water)
+    water_dates_list.append(f"{water.date.month}/{water.date.day}/{water.date.year}")
+
+    water_dict = {"waters": water_list, "waters_dates": water_dates_list}
+    print(water_dict)
+    return water_dict
+
+
+
         
 
 @app.route("/register", methods=["GET"])
@@ -123,29 +161,13 @@ def show_user():
             calories_list.append(int(needed_calories["caloric_needs"]["calories"])-todays_calories)
             calories_dates_list.append(f"{calorie.date.month}/{calorie.date.day}/{calorie.date.year}")
 
-            #Water
-            waters = crud.get_water_by_email(email)
-            water_list = []
-            water_dates_list = []
-            todays_water_list = []
-            needed_water = api_caller.water_intake(todays_weight, user.activity_level)["water_intake"]
-            todays_water = 0
-            #calculate how much water was eaten today
-            for water in waters:
-                if str(water.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
-                    todays_water_list.append(water)
-                    todays_water += water.water
-            #make list with total water eaten and water left to eat
-            water_list.append(todays_water)
-            water_list.append(needed_water-todays_water)
-            water_dates_list.append(f"{water.date.month}/{water.date.day}/{water.date.year}")
+            
 
-
-            bmi = api_caller.BMI(user.height,weights_list[-1])
+         
 
             return render_template("profile.html", user=user, calories=calories_list, calories_dates=calories_dates_list, 
                                 weights=weights_list[-5:], weights_dates=weight_dates_list[-5:], whole_calories=todays_calories_list,
-                                    whole_weights=weights[-5:], water_dates=water_dates_list, waters=water_list, bmi=bmi)
+                                    whole_weights=weights[-5:])
         else:# 
             flash("User not logged in!")
             return redirect("/login")
@@ -188,6 +210,15 @@ def add_water():
     db.session.commit()
     return redirect("/profile")
 
+def todays_weight(conversion):
+    weights = crud.get_weights_by_email(session["email"])
+    weight = weights[-1]
+    if conversion == "kg":
+        return (weight.weight / 2.205)
+    else:
+        return weight.weight
+
+    
 def todays_date():
     date = str(datetime.now()).rsplit(".")
     current_date = datetime.strptime(date[0], "%Y-%m-%d %H:%M:%S")
