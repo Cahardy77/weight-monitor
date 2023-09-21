@@ -72,16 +72,57 @@ def get_water():
         if str(water.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
             todays_water_list.append(water)
             todays_water += water.water
+            water_dates_list.append(f"{water.date.month}/{water.date.day}/{water.date.year}")
     #make list with total water eaten and water left to eat
     water_list.append(todays_water)
     water_list.append(needed_water-todays_water)
-    water_dates_list.append(f"{water.date.month}/{water.date.day}/{water.date.year}")
+    
 
     water_dict = {"waters": water_list, "waters_dates": water_dates_list}
-    print(water_dict)
     return water_dict
 
+@app.route("/get-weights")
+def get_weights():
+    weights = crud.get_weights_by_email(session["email"])
+    weights_list = []
+    weight_dates_list = []
+    weight_comments = []
 
+    for weight in weights:
+        
+        weights_list.append(weight.weight)
+        weight_dates_list.append(f"{weight.date.month}/{weight.date.day}/{weight.date.year}")
+        weight_comments.append(f"Date: {weight_dates_list[-1]} Weight: {weight.weight} Comment: {weight.comment}")
+  
+    weights_dict = {"weights": weights_list[-5:], "weights_dates": weight_dates_list[-5:], "weight_comments": weight_comments[-5:]}
+    
+    return weights_dict
+
+@app.route("/get-calories")
+def get_calories():
+    user = crud.get_user_by_email(session["email"])
+    calories = crud.get_calories_by_email(session["email"])
+    calories_list = []
+    calories_dates_list = []
+    todays_calories_list = []
+    calories_comments = []
+    age = todays_date().year - user.birth.year
+    weight = todays_weight("kg")
+    height = user.height * 2.54 #convert inches to cm for api
+    needed_calories = api_caller.caloric_intake(age,weight,height,user.gender,user.activity_level,user.goal)
+    todays_calories = 0
+    #calculate how many calories were eaten today
+    for calorie in calories:
+        if str(calorie.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
+            todays_calories_list.append(calorie)
+            calories_comments.append(f"Date: {calorie.date.month}/{calorie.date.day}/{calorie.date.year} Calories: {calorie.calories} Comment: {calorie.comment}")
+            todays_calories += calorie.calories
+    #make list with total calories eaten and calories left to eat
+    calories_list.append(todays_calories)
+    calories_list.append(int(needed_calories["caloric_needs"]["calories"])-todays_calories)
+    calories_dates_list.append(f"{calorie.date.month}/{calorie.date.day}/{calorie.date.year}")
+    calories_dict = {"calories": calories_list, "dates": calories_dates_list, "comments": calories_comments}
+    return calories_dict
 
         
 
@@ -132,42 +173,9 @@ def show_user():
     try:
         if session["email"]: #
             
-            email = session["email"]
-            user = crud.get_user_by_email(email)
-            weights = crud.get_weights_by_email(email)
-            
-            weights_list = []
-            weight_dates_list = []
-            for weight in weights:
-                weights_list.append(weight.weight)
-                weight_dates_list.append(f"{weight.date.month}/{weight.date.day}/{weight.date.year}")
+            user = crud.get_user_by_email(session["email"])
 
-            calories = crud.get_calories_by_email(email)
-            calories_list = []
-            calories_dates_list = []
-            todays_calories_list = []
-            age = todays_date().year - user.birth.year
-            todays_weight = weights_list[-1] / 2.205 # convert lbs to kilograms for api
-            height = user.height * 2.54 #convert inches to cm for api
-            needed_calories = api_caller.caloric_intake(age,todays_weight,height,user.gender,user.activity_level,user.goal)
-            todays_calories = 0
-            #calculate how many calories were eaten today
-            for calorie in calories:
-                if str(calorie.date).rsplit(" ")[0] == str(todays_date()).split(" ")[0]:
-                    todays_calories_list.append(calorie)
-                    todays_calories += calorie.calories
-            #make list with total calories eaten and calories left to eat
-            calories_list.append(todays_calories)
-            calories_list.append(int(needed_calories["caloric_needs"]["calories"])-todays_calories)
-            calories_dates_list.append(f"{calorie.date.month}/{calorie.date.day}/{calorie.date.year}")
-
-            
-
-         
-
-            return render_template("profile.html", user=user, calories=calories_list, calories_dates=calories_dates_list, 
-                                weights=weights_list[-5:], weights_dates=weight_dates_list[-5:], whole_calories=todays_calories_list,
-                                    whole_weights=weights[-5:])
+            return render_template("profile.html", user=user)
         else:# 
             flash("User not logged in!")
             return redirect("/login")
