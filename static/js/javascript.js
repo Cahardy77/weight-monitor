@@ -127,9 +127,29 @@ function bmi(){
       });
 }
 
+function isLoggedIn(){
+  fetch("/is-logged-in")
+    .then((response) => response.text())
+    .then((status) => {
+      if (status == "True"){
+        var logButton = document.getElementById("login-button");
+        var regProfButton = document.getElementById("register-button");
+
+        logButton.setAttribute("href", "/logout");
+        logButton.innerHTML = "Log Out";
+
+        regProfButton.setAttribute("href", "/profile");
+        regProfButton.innerHTML = "Profile";
+
+      };
+
+    });
+}
 
 //Add event listeners after page has loaded.
 window.onload = function(){
+  isLoggedIn();
+  
   document.querySelector("#add-weight").addEventListener("click", addWeightButton);
   document.querySelector("#add-calorie").addEventListener("click", addCalorieButton);
   document.querySelector("#add-water").addEventListener("click", addWaterButton);
@@ -138,6 +158,7 @@ window.onload = function(){
   weightChart();
   waterChart();
   caloriesChart();
+  
   
 
   

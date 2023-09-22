@@ -183,6 +183,13 @@ def show_user():
         flash("User not logged in!")
         return redirect("/login")
     
+@app.route("/is-logged-in")
+def is_logged_in():
+    if not session["email"]:
+        return "False"
+    else:
+        return "True"
+    
 @app.route("/add-weight", methods=["POST"])
 def add_weight():
     new_weight = request.form.get("new-weight")
