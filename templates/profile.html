@@ -4,64 +4,66 @@
 {% block body %}
 <script src="../static/js/javascript.js"></script>
 
-<div class="container-fluid">
+<div class="container-fluid" name="whole-page">
 
     <div class="row">
-        <div class="col">
-            <h3>{{ user.fname }}'s profile</h3>
+        <div class="col text-center">
+            <div class="display-4">{{ user.fname }}'s profile</div>
         </div>
     </div>
 
     <div class="row">
+
+        <div class="col-sm-5 offset-1">
+            <div class="card-body">
+                <h6 class="text-center">Weight for the last 5 days</h6>
+                <canvas id="weight-chart"></canvas>
+                <p id="weight-comment"></p>
+            </div>
+        </div>
+
+        <div class="col-sm-4 offset-1">
+            <div class="card-body">
+                <h6 class="text-center">Caloric Intake</h6>
+                <canvas id="calories-chart"></canvas>
+                <p id="calories-comments"></p>  
+            </div>
+        </div>
+
+    </div>
+    
+
+    <div class="row text-center mb-3 " name="weight-calore-buttons">
+        <div class="col-2 offset-2">
+            <div id="weight-button-p">
+                <button class="btn btn-primary" id="add-weight">Add Weight</button>
+            </div>
+        </div>
+        
+        <div class="col-2 offset-4">
+            <div id="calorie-button-p">
+                <button class="btn btn-primary" id="add-calorie">Add Calorie</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"></div>
+
+    
+    <div class="row mb-3 ">
+
         <div class="col-md-4 offset-1">
-            
-            <div style="width: 50rem;">
-                <div class="card-body">
-                    <h2>Weight for the last 5 days</h2>
-                    <canvas id="weight-chart"></canvas>
-                       
-                            <p id="weight-comment"></p>
-                        
-                        <p id="weight-button-p">
-                            <button id="add-weight">Add Weight</button>
-                        </p>
-                </div>
+            <div class="card-body">
+                <h6 class="text-center">Water Intake</h6>
+                <canvas id="water-chart"></canvas>
             </div>
         </div>
+            
+        
 
         <div class="col-md-4 offset-2">
             
-            <div style="width: 30rem;">
-                <div class="card-body">
-                    <h2>Caloric Intake</h2>
-                    <canvas id="calories-chart"></canvas>
-                            <p id="calories-comments"></p>
-                        <p id="calorie-button-p">
-                            <button id="add-calorie">Add Calorie</button>
-                        </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row align-middle">
-
-        <div class="col-md-4 offset-2">
-            <div style="width: 30rem;">
-                
-                <div class="card-body">
-                    <h2>Water Intake</h2>
-                    <canvas id="water-chart"></canvas>
-                        <p id="water-button-p">
-                            <button id="add-water">Add Water</button>
-                        </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-5 offset-1">
             
-            <div style="width: 30rem;">
                 <div class="text-center">
                     <div class="card">
                         <h2 class="card-title"></h2>
@@ -73,17 +75,20 @@
                             
                     </div>
                 </div>
-            </div>
+            
         </div>
 
     </div>
-    <div class="row">
-        <div class="col">
-            <canvas id="test"></canvas>
 
-            </p>
+    <div class="row mb-3" name="water-button">
+        <div class="col-2 offset-2" id="water-button-p">
+            <button class="btn btn-primary" id="add-water">Add Water</button>
+        </div>
+        <div class="col" id="spacer">
+            
         </div>
     </div>
+   
 </div>
 
 <!--Weight Chart-->

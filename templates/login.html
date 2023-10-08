@@ -1,22 +1,31 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    
-    <div class="row col-6 offset-4" >
-      <h2>Log In</h2>
+<div class="container">
+  <div class="row">
+    <div class="container card">
+      <h1 class="display-3 text-center">Login</h1>
       <form action="/login" method="POST">
-        <p>
-          Email <input type="text" name="email">
-        </p>
+       
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" aria-describedby="emailMsg" placeholder="Enter email">
+          <small id="emailMsg" class="form-text text-muted">Welcome Back!</small>
+        </div>
 
-        <p>
-          Password <input type="password" name="password">
-        </p>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordMsg" placeholder="Enter password">
+          <small id="passwordMsg" class="form-text text-muted">It's a secret..</small>
+        </div>
 
-        <p>
-          <input type="submit">
-        </p>
+        <div class="form-group">
+          <input class="btn btn-primary" type="submit">
+        </div>
       </form>
+
     </div>
+  </div>
+</div>
 
 {% endblock %}

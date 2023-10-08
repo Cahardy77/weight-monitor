@@ -1,3 +1,5 @@
+"""API WEBSITE: https://rapidapi.com/kidddevs/api/health-calculator-api/"""
+
 """Server for weight monitoring website"""
 from flask import (Flask, render_template, request, session, redirect, flash, jsonify)
 from sqlalchemy import text
@@ -74,11 +76,14 @@ def get_water():
             todays_water += water.water
             water_dates_list.append(f"{water.date.month}/{water.date.day}/{water.date.year}")
     #make list with total water eaten and water left to eat
+
+
+    
     water_list.append(todays_water)
     water_list.append(needed_water-todays_water)
     
 
-    water_dict = {"waters": water_list, "waters_dates": water_dates_list}
+    water_dict = {"waters": water_list}
     return water_dict
 
 @app.route("/get-weights")
@@ -110,6 +115,8 @@ def get_calories():
     weight = todays_weight("kg")
     height = user.height * 2.54 #convert inches to cm for api
     needed_calories = api_caller.caloric_intake(age,weight,height,user.gender,user.activity_level,user.goal)
+    needed_calories = float(needed_calories["caloric_needs"]["calories"].split(" ")[0])
+    needed_calories = round(needed_calories)
     todays_calories = 0
     #calculate how many calories were eaten today
     for calorie in calories:
@@ -119,7 +126,7 @@ def get_calories():
             todays_calories += calorie.calories
     #make list with total calories eaten and calories left to eat
     calories_list.append(todays_calories)
-    calories_list.append(int(needed_calories["caloric_needs"]["calories"])-todays_calories)
+    calories_list.append(int(needed_calories)-todays_calories)
     calories_dates_list.append(f"{calorie.date.month}/{calorie.date.day}/{calorie.date.year}")
     calories_dict = {"calories": calories_list, "dates": calories_dates_list, "comments": calories_comments}
     return calories_dict

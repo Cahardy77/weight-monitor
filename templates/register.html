@@ -2,73 +2,103 @@
 
 {% block body %}
 
-<div class="row col-6 offset-4" >
-    <h2>Register</h2>
+<div class="container">
+    <div class="row">
+        <div class="container card">
+
+            <h2 class="display-3 text-center">Register</h2>
+
+
+            <form class="container text-center" action="/register" method="POST">
+                <div class="row">
+                    <div class="col-4 offset-2">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"  required> 
+                        </div>
+                        
     
-    <form action="/register" method="POST">
-        <p>
-            Email <input type="text" name="email">
-        </p>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required> 
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name" required> 
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name" required> 
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="birth">Birthdate (MM/DD/YYYY)</label>
+                            <input type="text" class="form-control" id="birth" name="birth" placeholder="Enter birthdate" required> 
+                        </div>
+                    </div>
 
-        <p>
-            Password <input type="password" name="password">
-        </p>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="current-weight">Current weight (lbs.)</label>
+                            <input type="text" class="form-control" id="current-weight" name="current-weight" placeholder="Enter weight" required> 
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="height">Height (in)</label>
+                            <input type="text" class="form-control" id="height" name="height" placeholder="Enter height" required> 
+                        </div>
 
-        <p>
-            First Name <input type="text" name="firstname">
-        </p>
+                        <label for="activity-level">Activity level</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="activity-level">Activity Level</label>
+                            </div>
+                            <select class="custom-select" name="activity-level" id="activity-level">
+                                <option value="sedentary">Sedentary</option> 
+                                <option value="lightly_active">Lightly Active</option>  
+                                <option value="moderately_active">Moderately Active</option> 
+                                <option value="very_active">Very Active</option> 
+                                <option value="extra_active">Extra Active</option> 
+                            </select>
+                        </div>
+    
+                        <label for="gender">Gender</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="gender">Gender</label>
+                            </div>
+                            <select class="custom-select" name="gender" id="gender">
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                            </select>
+                        </div>
+    
+                        <label for="goal">Goal</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <label class="input-group-text" for="goal">Goal</label>
+                            </div>
+                            <select class="custom-select" name="goal" id="goal">
+                                <option value="weight_loss">Weight Loss</option> 
+                                    <option value="maintenance">Maintenance</option>  
+                                    <option value="weight_gain">Weight Gain</option>  
+                            </select>
+                        </div>
+                        
+    
+                        
+                    </div>
+                    
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-primary" type="submit">
+                </div>
+            </form>
 
-        <p>
-            Last Name <input type="text" name="lastname">
-        </p>
-
-        <p>
-            Birth Date <input type="text" name="birth">
-        </p>
-
-        <p>
-            Current weight(lbs.)<input type="text" name="current-weight">
-        </p>
-
-        <p>
-            Height(inches) <input type="text" name="height">
-        </p>
-
-        <p>
-            <label for="gender">Choose a gender:</label> 
-                <select name="gender" id="gender"> 
-                    <option value="male">Male</option> 
-                    <option value="female">Female</option>  
-                </select>
-        
-        </p>
-
-        <p>
-            <label for="activity-level">Choose an activity level:</label> 
-                <select name="activity-level" id="activity-level"> 
-                    <option value="sedentary">Sedentary</option> 
-                    <option value="lightly_active">Lightly Active</option>  
-                    <option value="moderately_active">Moderately Active</option> 
-                    <option value="very_active">Very Active</option> 
-                    <option value="extra_active">Extra Active</option> 
-                </select>
-        
-        </p>
-
-        <p>
-            <label for="goal">Choose a goal:</label> 
-                <select name="goal" id="goal"> 
-                    <option value="weight_loss">Weight Loss</option> 
-                    <option value="maintenance">Maintenance</option>  
-                    <option value="weight_gain">Weight Gain</option>  
-                </select>
-        
-        </p>
-
-        <p>
-        <input type="submit">
-        </p>
-    </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
